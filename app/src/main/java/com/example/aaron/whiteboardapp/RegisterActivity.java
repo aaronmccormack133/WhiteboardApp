@@ -12,27 +12,26 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button loginButton;
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button registerButton;
+    private EditText screenNameText;
+    private LinearLayout linearOne, linearTwo;
     private Animation uptodown;
     private Animation downtoup;
-    private LinearLayout linearOne;
-    private LinearLayout linearTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
-        Button loginButton = (Button) findViewById(R.id.login_btn);
         Button registerButton = (Button) findViewById(R.id.registerBtn);
 
-        emailEditText = (EditText) findViewById(R.id.editTextEmail);
-        passwordEditText = (EditText) findViewById(R.id.editTextPassword);
+        emailEditText = (EditText) findViewById(R.id.registerEmail);
+        passwordEditText = (EditText) findViewById(R.id.registerPassword);
+        screenNameText = (EditText) findViewById(R.id.screenNameInput);
         linearOne = (LinearLayout) findViewById(R.id.linearOne);
         linearTwo = (LinearLayout) findViewById(R.id.linearTwo);
         uptodown = AnimationUtils.loadAnimation(this, R.anim.up_to_down);
@@ -41,16 +40,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         linearOne.setAnimation(uptodown);
         linearTwo.setAnimation(downtoup);
 
-        loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
 
         Intent i = new Intent();
     }
 
-    public void runMethod(){
+    public void register(){
+        String screenName = screenNameText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
+        if(TextUtils.isEmpty(screenName)){
+            Toast.makeText(this, "Please enter a screen name", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
             return;
@@ -62,23 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
-    public void registerCall(){
-        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-    }
-
     @Override
     public void onClick(View v){
-        switch(v.getId()){
-            case R.id.login_btn:
-                runMethod();
-                break;
-
-            case R.id.registerBtn:
-                registerCall();
-                break;
-
-            default:
-                break;
-        }
+        register();
     }
 }
